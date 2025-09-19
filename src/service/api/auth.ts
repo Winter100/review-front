@@ -1,14 +1,14 @@
+import { api, baseURL } from "@/lib/apiClient";
 import { SignInType, SignupPayloadType } from "@/lib/validators/auth";
 import { SignInResponseType } from "@/types/sign-type";
 
-const basicUrl = "http://localhost:8080";
-
 export const signIn = async (data: SignInType): Promise<SignInResponseType> => {
   try {
-    const response = await fetch(`${basicUrl}/auth/signin`, {
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch(`${baseURL}/auth/signin`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -22,32 +22,13 @@ export const signIn = async (data: SignInType): Promise<SignInResponseType> => {
 };
 
 export const signUp = async (data: SignupPayloadType) => {
-  try {
-    const response = await fetch(`${basicUrl}/auth/signup`, {
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+  const response = await api.post("/auth/signup", data);
 
-    if (!response.ok) {
-      throw await response.json();
-    }
-
-    return response.json();
-  } catch (e) {
-    throw e;
-  }
+  return response.data;
 };
 
-export const checkEmail = async (email: string) => {
-  try {
-    const response = await fetch(`${basicUrl}/auth/check?email=${email}`, {
-      headers: { "Content-Type": "application/json" },
-      method: "GET",
-    });
+export const refreshTokenApi = async (): Promise<SignInResponseType> => {
+  const response = await api.get(`/auth/refresh`);
 
-    return response.json();
-  } catch (e) {
-    throw e;
-  }
+  return response.data;
 };
