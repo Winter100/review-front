@@ -35,21 +35,18 @@ export const useSignIn = () => {
       router.replace("/");
     },
 
-    onError: (error) => {
-      if (axios.isAxiosError(error)) {
-        const data = error.response?.data as SignDto;
-        switch (data.statusCode) {
-          case 401:
-            form.setError("root", {
-              type: "custom",
-              message: "이메일 또는 비밀번호가 올바르지 않습니다.",
-            });
-            break;
+    onError: (error: SignDto) => {
+      switch (error.statusCode) {
+        case 401:
+          form.setError("root", {
+            type: "custom",
+            message: "이메일 또는 비밀번호가 올바르지 않습니다.",
+          });
+          break;
 
-          default:
-            toast.error("잠시 후 다시 시도해주세요.");
-            break;
-        }
+        default:
+          toast.error("잠시 후 다시 시도해주세요.");
+          break;
       }
     },
   });

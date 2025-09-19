@@ -1,11 +1,24 @@
-import { api } from "@/lib/apiClient";
+import { api, baseURL } from "@/lib/apiClient";
 import { SignInType, SignupPayloadType } from "@/lib/validators/auth";
 import { SignInResponseType } from "@/types/sign-type";
 
 export const signIn = async (data: SignInType): Promise<SignInResponseType> => {
-  const response = await api.post("/auth/signin", data);
+  try {
+    const response = await fetch(`${baseURL}/auth/signin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      credentials: "include",
+    });
 
-  return response.data;
+    if (!response.ok) {
+      throw await response.json();
+    }
+
+    return response.json();
+  } catch (e) {
+    throw e;
+  }
 };
 
 export const signUp = async (data: SignupPayloadType) => {
