@@ -7,6 +7,7 @@ import {
   Camera,
   Gamepad2,
 } from "lucide-react";
+import Link from "next/link";
 
 const categories = [
   {
@@ -15,6 +16,7 @@ const categories = [
     description: "숨은 맛집부터 유명 레스토랑까지",
     count: "1,234",
     color: "bg-orange-100 text-orange-600",
+    href: "/review?filter=food&limit=20",
   },
   {
     icon: <MapPin className="h-8 w-8" />,
@@ -22,6 +24,7 @@ const categories = [
     description: "국내외 여행 명소와 숨은 보석들",
     count: "856",
     color: "bg-blue-100 text-blue-600",
+    href: "/review?filter=food",
   },
   {
     icon: <ShoppingBag className="h-8 w-8" />,
@@ -29,6 +32,7 @@ const categories = [
     description: "패션, 뷰티, 생활용품 솔직 후기",
     count: "2,103",
     color: "bg-pink-100 text-pink-600",
+    href: "/review?filter=food",
   },
   {
     icon: <Coffee className="h-8 w-8" />,
@@ -36,6 +40,7 @@ const categories = [
     description: "분위기 좋은 카페와 디저트 맛집",
     count: "967",
     color: "bg-amber-100 text-amber-600",
+    href: "/review?filter=food",
   },
   {
     icon: <Camera className="h-8 w-8" />,
@@ -43,6 +48,7 @@ const categories = [
     description: "전시회, 공연, 영화 관람 후기",
     count: "543",
     color: "bg-purple-100 text-purple-600",
+    href: "/review?filter=food",
   },
   {
     icon: <Gamepad2 className="h-8 w-8" />,
@@ -50,8 +56,15 @@ const categories = [
     description: "게임, 스포츠, 액티비티 체험기",
     count: "721",
     color: "bg-green-100 text-green-600",
+    href: "/review?filter=food",
   },
 ];
+
+const getData = async () => {
+  const response = await fetch("");
+  const data = await response.json();
+  return data;
+};
 
 const ReviewCategories = () => {
   return (
@@ -68,36 +81,35 @@ const ReviewCategories = () => {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {categories.map((category, index) => (
-            <Card
-              key={index}
-              className="group border-border/50 hover:border-secondary/50 bg-card/50 cursor-pointer backdrop-blur-sm transition-all duration-300 hover:shadow-lg"
-            >
-              <CardContent className="p-6">
-                <div className="flex items-start space-x-4">
-                  <div
-                    className={`rounded-full p-3 ${category.color} transition-transform duration-200 group-hover:scale-110`}
-                  >
-                    {category.icon}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-card-foreground group-hover:text-primary mb-2 text-lg font-bold transition-colors">
-                      {category.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-3 text-sm">
-                      {category.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground text-xs">
-                        {category.count}개의 리뷰
-                      </span>
-                      <span className="text-secondary text-sm font-semibold group-hover:underline">
-                        더보기 →
-                      </span>
+            <Link className="block" key={index} href={category.href}>
+              <Card className="group border-border/50 hover:border-secondary/50 bg-card/50 cursor-pointer backdrop-blur-sm transition-all duration-300 hover:shadow-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-start space-x-4">
+                    <div
+                      className={`rounded-full p-3 ${category.color} transition-transform duration-200 group-hover:scale-110`}
+                    >
+                      {category.icon}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-card-foreground group-hover:text-primary mb-2 text-lg font-bold transition-colors">
+                        {category.title}
+                      </h3>
+                      <p className="text-muted-foreground mb-3 text-sm">
+                        {category.description}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground text-xs">
+                          {category.count}개의 리뷰
+                        </span>
+                        <span className="text-secondary text-sm font-semibold group-hover:underline">
+                          더보기 →
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
