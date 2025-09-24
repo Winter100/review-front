@@ -42,7 +42,7 @@ const ReviewCard = ({
           className="h-auto w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <Badge className="bg-secondary/90 text-secondary-foreground absolute top-3 left-3">
-          {category.category}
+          {category.name}
         </Badge>
       </div>
 

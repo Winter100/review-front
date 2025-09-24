@@ -1,28 +1,22 @@
+"use client";
 import { ReviewDetailType } from "@/types/review-type";
-import {
-  ArrowLeft,
-  Clock,
-  Flag,
-  Heart,
-  MapPin,
-  MessageCircle,
-  Share2,
-  Star,
-} from "lucide-react";
+import { ArrowLeft, Clock, Flag, MapPin, Share2, Star } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const ReviewDetail = ({ review }: { review: ReviewDetailType }) => {
+  const router = useRouter();
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       {/* 뒤로가기 버튼 */}
-      <Link
-        href="/review"
-        className="mb-6 inline-flex items-center gap-2 font-medium text-pink-600 hover:text-pink-700"
+      <button
+        className="mb-6 inline-flex cursor-pointer items-center gap-2 font-medium text-pink-600 hover:text-pink-700"
+        onClick={() => router.back()}
       >
         <ArrowLeft className="h-5 w-5" />
         목록으로 돌아가기
-      </Link>
+      </button>
 
       {/* Review Header */}
       <div className="mb-6 rounded-3xl border-2 border-pink-100 bg-white p-8 shadow-lg">
@@ -37,7 +31,7 @@ const ReviewDetail = ({ review }: { review: ReviewDetailType }) => {
                 <div className="relative h-12 w-12 overflow-hidden rounded-full">
                   <Image
                     src={
-                      review.author.profileImageUrl ||
+                      review?.author?.profileImageUrl ||
                       "/images/blank_profile.png"
                     }
                     alt={review.author.nickname}
